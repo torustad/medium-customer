@@ -1,4 +1,4 @@
-package no.torustad.medium.mediumcustomer;
+package no.torustad.medium.customer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
