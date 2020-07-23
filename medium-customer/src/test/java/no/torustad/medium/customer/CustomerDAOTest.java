@@ -27,7 +27,7 @@ public class CustomerDAOTest {
                 CustomerEntity.builder()
                 .firstName("Ole olsen")
                 .lastName("Hansen nilsen")
-                .phoneNumber("313233")
+                .phoneNumber("(111)313-3233")
                 .email("a@b.c")
                 .build();
 
@@ -36,6 +36,6 @@ public class CustomerDAOTest {
             Optional<CustomerEntity> returnCustomer = customerDAO.findById(testCustomer.getCustomerId());
 
             assertTrue(returnCustomer.isPresent());
-            assertEquals(returnCustomer, testCustomer);
+            assertEquals(returnCustomer.get(), testCustomer);
         }
 }
