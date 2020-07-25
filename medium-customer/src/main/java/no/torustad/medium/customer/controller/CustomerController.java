@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
+import no.torustad.medium.customer.config.LoggingEnabled;
 import no.torustad.medium.customer.controller.dto.CustomerDTO;
 import no.torustad.medium.customer.controller.mapper.CustomerDTOMapper;
 import no.torustad.medium.customer.service.CustomerService;
@@ -25,6 +26,7 @@ import no.torustad.medium.customer.service.model.Customer;
 @Controller
 @RequestMapping(value = "/customer")
 @Slf4j
+@LoggingEnabled
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
