@@ -1,8 +1,18 @@
 server:
   port: 10000
+  tomcat:
+    accesslog:
+      enabled: true
+      pattern: '%t %h %l %u \"%r\" %s %b zipkin:[%{X-B3-TraceId}i, %{X-B3-SpanId}i, %{X-B3-ParentSpanId}i]'
+      directory: /home/baat/JAVA/SB-K8S-medium/customerlogs
+      prefix: access_log
+      suffix: .log
+      buffered: false
 spring:
   application:
     name: customer
   jackson:
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
+  liquibase:
+    change-log: "classpath:db/changelog/db.changelog-master.yaml"

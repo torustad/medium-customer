@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id:  addUniqueConstraint-customer
+      author: torustad
+      changes:
+        - addUniqueConstraint:
+            catalogName: medium
+            validate: true
+            columnNames: email
+            constraintName: C1
+            tableName: customer

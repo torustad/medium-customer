@@ -1,9 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: create-customer-table
       author: torustad
       changes:
         - createTable:
+            catalogName: medium
             tableName: customer
             columns:
               - column:
