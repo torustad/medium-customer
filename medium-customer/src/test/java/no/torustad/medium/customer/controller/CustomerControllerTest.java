@@ -9,11 +9,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-
 import no.torustad.medium.customer.controller.dto.CustomerDTO;
 import no.torustad.medium.customer.dao.CustomerDAO;
 import no.torustad.medium.customer.dao.entity.CustomerEntity;
@@ -22,20 +26,56 @@ import no.torustad.medium.customer.dao.entity.CustomerEntity;
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 // @AutoConfigureMockMvc
 // @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CustomerControllerTest {
+
+    @LocalServerPort
+    private int randomServerPort;
     
     @Autowired
     private CustomerDAO customerDAO;
 
-    //@LocalServerPort
-    int randomServerPort=10000;
-
     String customerPath = "/customer/";
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @BeforeEach
     public void setUp() {
         customerDAO.deleteAll();
+    }
+
+    @Test
+    public void testAddCustomerConflict() throws URISyntaxException {
+        CustomerEntity savedRecord = CustomerEntity.builder()
+                .firstName("Ole")
+                .lastName("olsen")
+                .email("o.o@rcn.no")
+                .phoneNumber("(999)123-1234")
+                .build();
+
+        customerDAO.save(savedRecord);
+
+        // RestTemplate restTemplate = new RestTemplate();
+        String baseURL = "http://localhost:"+randomServerPort+customerPath;
+        URI uri = new URI(baseURL);
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                    .firstName(savedRecord.getFirstName())
+                    .lastName(savedRecord.getLastName())
+                    .email(savedRecord.getEmail())
+                    .phoneNumber(savedRecord.getPhoneNumber())
+                    .build();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<CustomerDTO> request = new HttpEntity<>(customerDTO, httpHeaders);
+
+        try {
+            ResponseEntity<CustomerDTO> result = this.restTemplate.postForEntity(uri, request, CustomerDTO.class);
+        } catch (HttpStatusCodeException hsee) {
+            // Verify that request failed
+            Assertions.assertEquals(500, hsee.getRawStatusCode());
+        }
+
     }
 
     @Test

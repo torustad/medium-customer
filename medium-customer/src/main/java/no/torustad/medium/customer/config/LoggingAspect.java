@@ -30,7 +30,7 @@ public class LoggingAspect {
     // @Around("loggingEnabled()")
     @Around("execution(* no.torustad.medium.customer..*(..)) " +
             "&& !within(no.torustad.medium.customer.config. .*)" +
-            "&& !within(no.torustad.medium.customer.controller.CustomerControllerAdvice)")
+            "&& !within(no.torustad.medium.customer.config.CustomerControllerAdvice)")
     public Object profileAllMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         logMethodInvocationAndParameters(proceedingJoinPoint);
@@ -61,7 +61,7 @@ public class LoggingAspect {
                     totalTimeMillis);
             // log.info("logMethodInvocationAndParameters: ");
         } catch (JsonProcessingException jpe) {
-            log.error("Unable to write logvalue: {}", jpe.getMessage(), jpe);
+            log.error("LoggingAspect.logMethodInvocationAndParameters(): Unable to write logvalue: {}", jpe.getMessage(), jpe);
         }
     }
 
@@ -87,7 +87,7 @@ public class LoggingAspect {
             }
         } catch (JsonProcessingException jpe) {
             // } catch (Exception jpe) {
-            log.error("Unable to write log value: {}",
+            log.error("LoggingAspect.logMethodInvocationAndParameters(): Unable to write log value: {}",
                     jpe.getMessage(), 
                     jpe);
         }

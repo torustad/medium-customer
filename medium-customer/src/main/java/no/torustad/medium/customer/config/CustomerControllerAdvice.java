@@ -1,4 +1,4 @@
-package no.torustad.medium.customer.controller;
+package no.torustad.medium.customer.config;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ public class CustomerControllerAdvice extends ResponseEntityExceptionHandler
  {
      @ExceptionHandler(value = {IllegalArgumentException.class})
      protected ResponseEntity<Object> handleConflict(RuntimeException re, WebRequest wr) {
-         String bodyOfResponse = "Unable to process request because of invalid input data";
+         String bodyOfResponse = "handleConflict()[CustomerControllerAdvice]: Unable to process request because of invalid input data";
 
          return handleExceptionInternal(re, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, wr);
      }
@@ -23,8 +23,12 @@ public class CustomerControllerAdvice extends ResponseEntityExceptionHandler
     @ExceptionHandler(value = {CustomerSystemException.class})
     protected ResponseEntity<Object> handleSystemException(RuntimeException re, WebRequest wr) {
         
-        String bodyOfResponse = String.format("Unable to process request because of system exception");
-        return handleExceptionInternal(re, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, wr);
+
+        // Testen i CustomerControllerTest feilet fordi den forventet json, så derfor:
+        String j = "{\"melding\": \"handleSystemException()[CustomerControllerAdvic]: Unable to process request because of system exception\"}";
+
+        // String bodyOfResponse = String.format("handleSystemException()[CustomerControllerAdvic]: Unable to process request because of system exception");
+        return handleExceptionInternal(re, j, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, wr);
     }
     
 }

@@ -28,7 +28,7 @@ public class CustomerService {
             Customer returnCustomer = CustomerEntityMapper.INSTANCE.customerEntityTCustomer(storedEntity);
             return returnCustomer;
         } catch (Exception e) {
-            throw new CustomerSystemException("Unable to persist customer data: "+e.getMessage(), e);
+            throw new CustomerSystemException("persistCustomer(): Unable to persist customer data: "+e.getMessage(), e);
         }
     }
 }

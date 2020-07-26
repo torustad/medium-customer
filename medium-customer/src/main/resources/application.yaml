@@ -16,3 +16,8 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false
   liquibase:
     change-log: "classpath:db/changelog/db.changelog-master.yaml"
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+
