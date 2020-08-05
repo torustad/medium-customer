@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: pks-harbor.ad.forskningsradet.no/prosjekt0/medium-customer
+  repository: somewhere
   tag: latest
   pullPolicy: IfNotPresent
 
@@ -69,7 +69,18 @@ extraEnv: {}
   # DATABASE_NAME: spring
   # DATABASE_USERNAME: spring
   # DATABASE_PASSWORD: spring
-
+secretsToEnv:
+  - name: SPRING_DATASOURCE_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: database-secrets
+        key: SPRING_DATASOURCE_PASSWORD
+  - name: SPRING_DATASOURCE_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: database-secrets
+        key: SPRING_DATASOURCE_USERNAME
+        
 securityContext: {}
   # runAsUser: 1000
   # fsGroup: 1000

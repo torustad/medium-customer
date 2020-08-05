@@ -1,0 +1,9 @@
+2020-07-28 17:49:20 pksuser@pksjumphost:~/baat/BOKA/postgres$ kubectl create -f postgres-config.yaml
+configmap/postgres-config-demo created
+
+2020-07-28 17:49:51 pksuser@pksjumphost:~/baat/BOKA/postgres$ kubectl get ConfigMap
+NAME                   DATA   AGE
+haproxy                1      15d
+postgres-config-demo   3      55s
+
+2020-07-28 17:50:26 pksuser@pksjumphost:~/baat/BOKA/postgres$ 

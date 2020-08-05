@@ -1,0 +1,9 @@
+2020-07-28 17:53:19 pksuser@pksjumphost:~/baat/BOKA/postgres$ kubectl apply -f postgres-service.yaml 
+service/postgres created
+
+2020-07-28 17:53:43 pksuser@pksjumphost:~/baat/BOKA/postgres$ kubectl get svc | grep postg
+postgres              ClusterIP      None             <none>           5432/TCP       40s   <<<----
+
+postgresql            ClusterIP      10.100.200.26    <none>           5432/TCP       8d
+postgresql-headless   ClusterIP      None             <none>           5432/TCP       8d
+2020-07-28 17:54:09 pksuser@pksjumphost:~/baat/BOKA/postgres$ 
